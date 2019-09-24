@@ -42,7 +42,6 @@ function getCars() {
 //   }).then(getCars);
 // }
 
-// This function inserts a new todo into our database and then updates the view
 function fairCondition(currentCondition, carYear) {
   if (currentCondition === "fair" && carYear > 2000 && carYear < 2005) {
     offer = Math.floor(Math.random() * 800) + 500;
@@ -74,7 +73,7 @@ function goodCondition(currentCondition, carYear) {
 function excellentCondition(currentCondition, carYear) {
   if (currentCondition === "excellent" && carYear > 2000 && carYear < 2005) {
     offer = Math.floor(Math.random() * 1400) + 1200;
-  } else if (currentCondition === "excellent" && carYear > 2005 && carYear < 2010) {
+  } else if (currentCondition === "excellent" && carYear >2005 && carYear < 2010) {
     offer = Math.floor(Math.random() * 1800) + 1400;
   } else if (currentCondition === "excellent" && carYear > 2010 && carYear < 2015) {
     offer = Math.floor(Math.random() * 2500) + 1800;
