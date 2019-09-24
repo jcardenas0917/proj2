@@ -34,6 +34,13 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         len: [1]
       }
+    },
+    offer: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      validate: {
+        len: [1]
+      }
     }
   });
   return Cars;
