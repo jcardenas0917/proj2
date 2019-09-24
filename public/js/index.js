@@ -6,13 +6,22 @@ var $condition = $("#condition");
 var offer = 0;
 
 $(document).on("submit", "#sellForm", buyCar);
+$(document).on("click", "#results", getCars);
 
-// This function grabs todos from the database and updates the view
-// function getCars() {
-//   $.get("/api/cars", function(data) {
-//     cars = data;
-//   });
-// }
+function showResults(carsResult) {
+  carsResult.forEach(function(element) {
+    console.log(element);
+  });
+}
+
+// This function grabs cars from the database and updates the view
+
+function getCars() {
+  $.get("/api/cars", function(data) {
+    cars = data;
+    showResults(cars);
+  });
+}
 
 // This function deletes a todo when the user clicks the delete button
 // function deleteCar(event) {
@@ -34,11 +43,53 @@ $(document).on("submit", "#sellForm", buyCar);
 // }
 
 // This function inserts a new todo into our database and then updates the view
+function fairCondition(currentCondition, carYear) {
+  if (currentCondition === "fair" && carYear > 2000 && carYear < 2005) {
+    offer = Math.floor(Math.random() * 800) + 500;
+    console.log(offer);
+  } else if (currentCondition === "fair" && carYear > 2005 && carYear < 2010) {
+    offer = Math.floor(Math.random() * 1000) + 800;
+    console.log(offer);
+  } else if (currentCondition === "fair" && carYear > 2010 && carYear < 2015) {
+    offer = Math.floor(Math.random() * 1200) + 1000;
+    console.log(offer);
+  } else if (currentCondition === "fair" && carYear > 2015) {
+    offer = Math.floor(Math.random() * 1500) + 1200;
+    console.log(offer);
+  }
+}
+
+function goodCondition(currentCondition, carYear) {
+  if (currentCondition === "good" && carYear > 2000 && carYear < 2005) {
+    offer = Math.floor(Math.random() * 1000) + 800;
+  } else if (currentCondition === "good" && carYear > 2005 && carYear < 2010) {
+    offer = Math.floor(Math.random() * 1200) + 1000;
+  } else if (currentCondition === "good" && carYear > 2010 && carYear < 2015) {
+    offer = Math.floor(Math.random() * 2000) + 1600;
+  } else if (currentCondition === "good" && carYear > 2015) {
+    offer = Math.floor(Math.random() * 3500) + 2500;
+  }
+}
+
+function excellentCondition(currentCondition, carYear) {
+  if (currentCondition === "excellent" && carYear > 2000 && carYear < 2005) {
+    offer = Math.floor(Math.random() * 1400) + 1200;
+  } else if (currentCondition === "excellent" && carYear > 2005 && carYear < 2010) {
+    offer = Math.floor(Math.random() * 1800) + 1400;
+  } else if (currentCondition === "excellent" && carYear > 2010 && carYear < 2015) {
+    offer = Math.floor(Math.random() * 2500) + 1800;
+  } else if (currentCondition === "excellent" && carYear > 2015) {
+    offer = Math.floor(Math.random() * 7000) + 4500;
+  }
+}
+
 function buyCar(event) {
   event.preventDefault();
-  if ($miles.val() < 50000 && $condition.val() === "good") {
-    offer = 1000;
-  }
+  var condition = $condition.val();
+  var year = $year.val();
+  fairCondition(condition, year);
+  goodCondition(condition, year);
+  excellentCondition(condition, year);
   var cars = {
     make: $make.val(),
     model: $model.val(),
