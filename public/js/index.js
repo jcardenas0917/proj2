@@ -41,54 +41,67 @@ function getCars() {
 //     data: cars
 //   }).then(getCars);
 // }
-
-function fairCondition(currentCondition, carYear) {
-  if (currentCondition === "fair" && carYear > 2000 && carYear < 2005) {
-    offer = Math.floor(Math.random() * 800) + 500;
+function fairCondition(carYear) {
+  if (carYear > 2000 && carYear < 2004) {
+    offer = Math.floor(Math.random() * (1500 - 900 + 1)) + 900;
     console.log(offer);
-  } else if (currentCondition === "fair" && carYear > 2005 && carYear < 2010) {
-    offer = Math.floor(Math.random() * 1000) + 800;
+  } else if (carYear > 2004 && carYear < 2009) {
+    offer = Math.floor(Math.random() * (2000 - 1500 + 1)) + 1500;
     console.log(offer);
-  } else if (currentCondition === "fair" && carYear > 2010 && carYear < 2015) {
-    offer = Math.floor(Math.random() * 1200) + 1000;
+  } else if (carYear > 2009 && carYear < 2015) {
+    offer = Math.floor(Math.random() * (2300 - 2000 + 1)) + 2000;
     console.log(offer);
-  } else if (currentCondition === "fair" && carYear > 2015) {
-    offer = Math.floor(Math.random() * 1500) + 1200;
+  } else if (carYear >= 2015) {
+    offer = Math.floor(Math.random() * (2800 - 2300 + 1)) + 2300;
     console.log(offer);
   }
 }
 
-function goodCondition(currentCondition, carYear) {
-  if (currentCondition === "good" && carYear > 2000 && carYear < 2005) {
-    offer = Math.floor(Math.random() * 1000) + 800;
-  } else if (currentCondition === "good" && carYear > 2005 && carYear < 2010) {
-    offer = Math.floor(Math.random() * 1200) + 1000;
-  } else if (currentCondition === "good" && carYear > 2010 && carYear < 2015) {
-    offer = Math.floor(Math.random() * 2000) + 1600;
-  } else if (currentCondition === "good" && carYear > 2015) {
-    offer = Math.floor(Math.random() * 3500) + 2500;
+function goodCondition(carYear) {
+  if (carYear > 2000 && carYear < 2004) {
+    offer = Math.floor(Math.random() * (3200 - 2800 + 1)) + 2800;
+  } else if (carYear > 2004 && carYear < 2009) {
+    offer = Math.floor(Math.random() * (3600 - 3200 + 1)) + 3200;
+  } else if (carYear > 2009 && carYear < 2015) {
+    offer = Math.floor(Math.random() * (4000 - 3600 + 1)) + 3600;
+  } else if (carYear >= 2015) {
+    offer = Math.floor(Math.random() * (4400 - 4000 + 1)) + 4000;
   }
 }
 
-function excellentCondition(currentCondition, carYear) {
-  if (currentCondition === "excellent" && carYear > 2000 && carYear < 2005) {
-    offer = Math.floor(Math.random() * 1400) + 1200;
-  } else if (currentCondition === "excellent" && carYear >2005 && carYear < 2010) {
-    offer = Math.floor(Math.random() * 1800) + 1400;
-  } else if (currentCondition === "excellent" && carYear > 2010 && carYear < 2015) {
-    offer = Math.floor(Math.random() * 2500) + 1800;
-  } else if (currentCondition === "excellent" && carYear > 2015) {
-    offer = Math.floor(Math.random() * 7000) + 4500;
+function excellentCondition(carYear) {
+  if (carYear > 2000 && carYear < 2004) {
+    offer = Math.floor(Math.random() * (4600 - 4400 + 1)) + 4400;
+  } else if (carYear > 2004 && carYear < 2009) {
+    offer = Math.floor(Math.random() * (5000 - 4600 + 1)) + 4600;
+  } else if (carYear > 2009 && carYear < 2015) {
+    offer = Math.floor(Math.random() * (5400 - 5000 + 1)) + 5000;
+  } else if (carYear >= 2015) {
+    offer = Math.floor(Math.random() * (7000 - 5400 + 1)) + 5400;
   }
 }
 
+function checkCondition(condition){
+  var year = $year.val();
+  switch (condition) {
+    case "fair":
+      console.log("fair");
+      fairCondition(year);
+      return;
+    case "good":
+      console.log("good");
+      goodCondition(year);
+      return;
+    case "excellent":
+      console.log("excellent");
+      excellentCondition(year);
+      return;
+  }
+}
 function buyCar(event) {
   event.preventDefault();
   var condition = $condition.val();
-  var year = $year.val();
-  fairCondition(condition, year);
-  goodCondition(condition, year);
-  excellentCondition(condition, year);
+  checkCondition(condition);
   var cars = {
     make: $make.val(),
     model: $model.val(),
@@ -100,4 +113,5 @@ function buyCar(event) {
 
   console.log(offer);
   $.post("/api/cars", cars);
+  // location.reload();
 }
