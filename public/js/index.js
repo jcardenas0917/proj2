@@ -6,11 +6,37 @@ var $condition = $("#condition");
 var offer = 0;
 
 $(document).on("submit", "#sellForm", buyCar);
-$(document).on("click", "#results", getCars);
+$(document).on("submit", "#buyCar", getCars);
+
 
 function showResults(carsResult) {
-  carsResult.forEach(function (element) {
-    console.log(element);
+  carsResult.forEach(function (car,index) {
+    var value = parseInt(carsResult[index].offer);
+    console.log(value);
+    var profit = (value * .35);
+    var sellPrice = Math.round(value + profit);
+    console.log(carsResult[index].make);
+    console.log(carsResult[index].model);
+    console.log(carsResult[index].year);
+    console.log(carsResult[index].miles);
+    console.log(carsResult[index].condition);
+    console.log(sellPrice);
+    var displayDiv = $("<div>").attr("class", "display");
+    var make = $("<p>").text("Make: " + carsResult[index].make);
+    var model = $("<p>").text("Model: " + carsResult[index].model);
+    var year = $("<p>").text("Year: " + carsResult[index].year);
+    var miles = $("<p>").text("Miles: " + carsResult[index].miles);
+    var condition = $("<p>").text("Condition: " + carsResult[index].condition);
+    var price = $("<p>").text("Price: " + "$" + sellPrice);
+    var divider = $("<p>").text("-------------------------");
+    displayDiv.append(make);
+    displayDiv.append(model);
+    displayDiv.append(year);
+    displayDiv.append(miles);
+    displayDiv.append(condition);
+    displayDiv.append(price);
+    displayDiv.append(divider);
+    $("#result").append(displayDiv);
   });
 }
 
@@ -18,7 +44,7 @@ function showResults(carsResult) {
 
 function getCars() {
   $.get("/api/cars/" + $make.val() + "/" + $condition.val(), function (data) {
-    cars = data;
+    var cars = data;
     showResults(cars);
   });
 }
@@ -70,6 +96,7 @@ function goodCondition(carYear) {
 }
 
 function excellentCondition(carYear) {
+  console.log("this"+carYear)
   if (carYear > 1999 && carYear < 2004) {
     offer = Math.floor(Math.random() * (4600 - 4400 + 1)) + 4400;
   } else if (carYear > 2004 && carYear < 2009) {
@@ -84,24 +111,24 @@ function excellentCondition(carYear) {
 function checkCondition(condition) {
   var year = $year.val();
   switch (condition) {
-    case "fair":
-      console.log("fair");
+    case "Fair":
+      console.log("Fair");
       fairCondition(year);
       return;
-    case "good":
-      console.log("good");
+    case "Good":
+      console.log("Good");
       goodCondition(year);
       return;
-    case "excellent":
-      console.log("excellent");
+    case "Excellent":
+      console.log("Excellent");
       excellentCondition(year);
       return;
   }
 }
 function buyCar(event) {
   event.preventDefault();
-  console.log($year.val());
   var condition = $condition.val();
+  
   checkCondition(condition);
   var cars = {
     make: $make.val(),
