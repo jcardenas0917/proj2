@@ -71,9 +71,10 @@ function getCars() {
 function showOffer(acceptOffer){
 
   var displayDiv = $("<div>").attr("class", "display");
-  var message = $("<h1>").text("Our offer is : " + acceptOffer+ " for your vehicle");
+  var message = $("<h1>").text("Our offer is $" + acceptOffer+ " for your vehicle");
   displayDiv.append(message);
   displayDiv.append( $("<button>").text("accept").attr("class", "btn btn-dark accept"));
+  displayDiv.append($("<div>").attr("class", "col-2"));
   displayDiv.append( $("<button>").text("do no accept").attr("class", "btn btn-dark notAccept"));
   $("#result").append(displayDiv);
   // $(document).on("click", "#sellForm", postCar);
