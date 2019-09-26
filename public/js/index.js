@@ -5,11 +5,11 @@ var $miles = $("#miles");
 var $condition = $("#condition");
 var offer = 0;
 
-$(document).on("submit", "#sellForm", buyCar);
+$(document).on("click", "#offer", buyCar);
 $(document).on("click", "#results", getCars);
 
 function showResults(carsResult) {
-  carsResult.forEach(function(element) {
+  carsResult.forEach(function (element) {
     console.log(element);
   });
 }
@@ -17,7 +17,7 @@ function showResults(carsResult) {
 // This function grabs cars from the database and updates the view
 
 function getCars() {
-  $.get("/api/cars", function(data) {
+  $.get("/api/cars/" + $make.val() + "/" + $condition.val(), function (data) {
     cars = data;
     showResults(cars);
   });
@@ -42,7 +42,7 @@ function getCars() {
 //   }).then(getCars);
 // }
 function fairCondition(carYear) {
-  if (carYear > 2000 && carYear < 2004) {
+  if (carYear > 1999 && carYear < 2004) {
     offer = Math.floor(Math.random() * (1500 - 900 + 1)) + 900;
     console.log(offer);
   } else if (carYear > 2004 && carYear < 2009) {
@@ -58,7 +58,7 @@ function fairCondition(carYear) {
 }
 
 function goodCondition(carYear) {
-  if (carYear > 2000 && carYear < 2004) {
+  if (carYear > 19999 && carYear < 2004) {
     offer = Math.floor(Math.random() * (3200 - 2800 + 1)) + 2800;
   } else if (carYear > 2004 && carYear < 2009) {
     offer = Math.floor(Math.random() * (3600 - 3200 + 1)) + 3200;
@@ -70,7 +70,7 @@ function goodCondition(carYear) {
 }
 
 function excellentCondition(carYear) {
-  if (carYear > 2000 && carYear < 2004) {
+  if (carYear > 1999 && carYear < 2004) {
     offer = Math.floor(Math.random() * (4600 - 4400 + 1)) + 4400;
   } else if (carYear > 2004 && carYear < 2009) {
     offer = Math.floor(Math.random() * (5000 - 4600 + 1)) + 4600;
@@ -81,7 +81,7 @@ function excellentCondition(carYear) {
   }
 }
 
-function checkCondition(condition){
+function checkCondition(condition) {
   var year = $year.val();
   switch (condition) {
     case "fair":
@@ -100,6 +100,7 @@ function checkCondition(condition){
 }
 function buyCar(event) {
   event.preventDefault();
+  console.log($year.val());
   var condition = $condition.val();
   checkCondition(condition);
   var cars = {

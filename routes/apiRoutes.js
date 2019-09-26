@@ -1,11 +1,23 @@
 var db = require("../models");
 
 module.exports = function(app) {
-  // Get all examples
-  app.get("/api/cars", function(req, res) {
-    db.Cars.findAll({}).then(function(dbCars) {
-      res.json(dbCars);
-    });
+  
+  // app.get("/api/cars", function(req, res) {
+  //   db.Cars.findAll({}).then(function(dbCars) {
+  //     res.json(dbCars);
+  //   });
+  // });
+
+  app.get("/api/cars/:make/:condition", function(req, res) {
+    db.Cars.findAll({
+      where: {
+        make: req.params.make,
+        condition: req.params.condition
+      }
+    })
+      .then(function(dbCars) {
+        res.json(dbCars);
+      });
   });
 
   // Create a new example
