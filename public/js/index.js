@@ -5,7 +5,7 @@ var $miles = $("#miles");
 var $condition = $("#condition");
 var offer = 0;
 
-$(document).on("click", "#offer", buyCar);
+$(document).on("submit", "#sellForm", buyCar);
 $(document).on("click", "#results", getCars);
 
 function showResults(carsResult) {
