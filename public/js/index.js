@@ -5,8 +5,9 @@ var $miles = $("#miles");
 var $condition = $("#condition");
 var offer = 0;
 
-$(document).on("submit", "#sellForm", buyCar);
+$(document).on("submit", "#sellForm", sellCar);
 $(document).on("submit", "#buyCar", getCars);
+$(document).on("click", ".buy", buyCar);
 
 
 function showResults(carsResult) {
@@ -35,6 +36,7 @@ function showResults(carsResult) {
     displayDiv.append(miles);
     displayDiv.append(condition);
     displayDiv.append(price);
+    displayDiv.append( $("<button>").text("Buy").attr("class", "btn btn-dark buy"));
     displayDiv.append(divider);
     $("#result").append(displayDiv);
   });
@@ -49,7 +51,7 @@ function getCars() {
   });
 }
 
-// This function deletes a todo when the user clicks the delete button
+
 // function deleteCar(event) {
 //   event.stopPropagation();
 //   var id = $(this).data("id");
@@ -149,7 +151,7 @@ function checkCondition(condition) {
       return;
   }
 }
-function buyCar(event) {
+function sellCar(event) {
   event.preventDefault();
   var condition = $condition.val();
   checkCondition(condition);
@@ -165,4 +167,13 @@ function buyCar(event) {
   console.log(offer);
   $.post("/api/cars", cars);
   // location.reload();
+}
+function buyCar(event){
+  event.stopPropagation();
+  console.log("👍👍👍");
+  var id = $(this).data("id");
+  $.ajax({
+    method: "DELETE",
+    url: "/api/cars/" + id
+  }).then(getCars);
 }
