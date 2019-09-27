@@ -35,9 +35,15 @@ module.exports = function(app) {
   });
 
   // Delete an example by id
-  app.delete("/api/cars/:id", function(req, res) {
-    db.Cars.destroy({ where: { id: req.params.id } }).then(function(dbCars) {
+  app.delete("/api/todos/:id", function(req, res) {
+    // We just have to specify which todo we want to destroy with "where"
+    db.Cars.destroy({
+      where: {
+        id: req.params.id
+      }
+    }).then(function(dbCars) {
       res.json(dbCars);
     });
+
   });
 };

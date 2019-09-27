@@ -7,7 +7,7 @@ var offer = 0;
 
 $(document).on("submit", "#sellForm", sellCar);
 $(document).on("submit", "#buyCar", getCars);
-$(document).on("click", ".buy", buyCar);
+$(document).on("click", "button.buy", buyCar);
 
 
 function showResults(carsResult) {
@@ -29,6 +29,7 @@ function showResults(carsResult) {
     var miles = $("<p>").text("Miles: " + carsResult[index].miles);
     var condition = $("<p>").text("Condition: " + carsResult[index].condition);
     var price = $("<p>").text("Price: " + "$" + sellPrice);
+    var button = $("<button>").text("Buy").attr("class", "btn btn-dark buy").data("id",carsResult[index].id);
     var divider = $("<p>").text("-------------------------");
     displayDiv.append(make);
     displayDiv.append(model);
@@ -36,7 +37,7 @@ function showResults(carsResult) {
     displayDiv.append(miles);
     displayDiv.append(condition);
     displayDiv.append(price);
-    displayDiv.append( $("<button>").text("Buy").attr("class", "btn btn-dark buy"));
+    displayDiv.append(button);
     displayDiv.append(divider);
     $("#result").append(displayDiv);
   });
@@ -50,16 +51,6 @@ function getCars() {
     showResults(cars);
   });
 }
-
-
-// function deleteCar(event) {
-//   event.stopPropagation();
-//   var id = $(this).data("id");
-//   $.ajax({
-//     method: "DELETE",
-//     url: "/api/cars/" + id
-//   }).then(getCars);
-//}
 
 // This function updates a todo in our database
 // function updateCar(todo) {
@@ -168,12 +159,16 @@ function sellCar(event) {
   $.post("/api/cars", cars);
   // location.reload();
 }
-function buyCar(event){
+
+function buyCar(event) {
   event.stopPropagation();
-  console.log("👍👍👍");
+  console.log("👍👍👍")
   var id = $(this).data("id");
+  console.log(id)
   $.ajax({
     method: "DELETE",
-    url: "/api/cars/" + id
+    url: "/api/todos/" + id
   }).then(getCars);
 }
+
+
