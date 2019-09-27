@@ -11,6 +11,7 @@ $(document).on("click", "button.buy", buyCar);
 
 
 function showResults(carsResult) {
+  $("#result").empty();
   carsResult.forEach(function (car,index) {
     var value = parseInt(carsResult[index].offer);
     console.log(value);
