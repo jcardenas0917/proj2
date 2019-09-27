@@ -168,7 +168,7 @@ function buyCar(event) {
   console.log(id)
   $.ajax({
     method: "DELETE",
-    url: "/api/todos/" + id
+    url: "/api/cars/" + id
   }).then(getCars);
 }
 
