@@ -9,7 +9,12 @@ $(document).on("submit", "#sellForm", getOffer);
 $(document).on("click", "button.accept", acceptOffer);
 $(document).on("submit", "#buyCar", getCars);
 $(document).on("click", "button.buy", buyCar);
+$(document).on("click", "#clear", clearBuy);
 
+
+function clearBuy(){
+  $("#inventory").empty();
+}
 function showOfferModal(){
   $('#showOffer').modal({
     show: true,
