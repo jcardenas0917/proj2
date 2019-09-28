@@ -7,12 +7,15 @@ var offer = 0;
 
 $(document).on("submit", "#sellForm", getOffer);
 $(document).on("click", "button.accept", acceptOffer);
-$(document).on("click", "button.notAccept", notAcceptOffer);
 $(document).on("submit", "#buyCar", getCars);
 $(document).on("click", "button.buy", buyCar);
-$(document).on("click", "button.closeMessage", clearOffer);
 
-
+function showOfferModal(){
+  $('#showOffer').modal({
+    show: true,
+});
+  $('#offer').text("Our offer for your vehicle is $" + offer);
+}
 function showResults(carsResult) {
   $("#inventory").empty();
   carsResult.forEach(function (car,index) {
@@ -43,44 +46,29 @@ function showResults(carsResult) {
 // This function grabs cars from the database and updates the view
 
 function getCars() {
+  $("#inventory").empty();
   $.get("/api/cars/" + $make.val() + "/" + $condition.val(), function (data) {
     var cars = data;
     showResults(cars);
   });
 };
-function showOffer(acceptOffer){
-  $("#result").empty();
-  $("#result").empty();
-  $("#accept").empty();
-  $("#notaccept").empty();
-  
-  var displayDiv = $("<div>").attr("class", "offerDiv");
-  var acceptDiv = $("<div>").attr("class", "buttons");
-  var notacceptDiv = $("<div>").attr("class", "buttons");
-  var message = $("<h1>").attr("class", ".offerMessage").text("Our offer for your vehicle is $" + acceptOffer);
-  displayDiv.append(message);
-  acceptDiv.append( $("<button>").text("accept").attr("class", "btn btn-dark accept"));
-  notacceptDiv.append( $("<button>").text("do no accept").attr("class", "btn btn-dark notAccept"));
-  $("#result").append(displayDiv);
-  $("#accept").append(acceptDiv);
-  $("#notaccept").append(notacceptDiv);
-};
+
 function fairCondition(carYear) {
   if (carYear > 1999 && carYear < 2004) {
     offer = Math.floor(Math.random() * (1500 - 900 + 1)) + 900;
-    showOffer(offer);
+    showOfferModal(offer);
     console.log(offer);
   } else if (carYear > 2004 && carYear < 2009) {
     offer = Math.floor(Math.random() * (2000 - 1500 + 1)) + 1500;
-    showOffer(offer);
+    showOfferModal(offer);
     console.log(offer);
   } else if (carYear > 2009 && carYear < 2015) {
     offer = Math.floor(Math.random() * (2300 - 2000 + 1)) + 2000;
-    showOffer(offer);
+    showOfferModal(offer);
     console.log(offer);
   } else if (carYear >= 2015) {
     offer = Math.floor(Math.random() * (2800 - 2300 + 1)) + 2300;
-    showOffer(offer);
+    showOfferModal(offer);
     console.log(offer);
   }
 };
@@ -88,16 +76,16 @@ function fairCondition(carYear) {
 function goodCondition(carYear) {
   if (carYear > 19999 && carYear < 2004) {
     offer = Math.floor(Math.random() * (3200 - 2800 + 1)) + 2800;
-    showOffer(offer);
+    showOfferModal(offer);
   } else if (carYear > 2004 && carYear < 2009) {
     offer = Math.floor(Math.random() * (3600 - 3200 + 1)) + 3200;
-    showOffer(offer);
+    showOfferModal(offer);
   } else if (carYear > 2009 && carYear < 2015) {
     offer = Math.floor(Math.random() * (4000 - 3600 + 1)) + 3600;
-    showOffer(offer);
+    showOfferModal(offer);
   } else if (carYear >= 2015) {
     offer = Math.floor(Math.random() * (4400 - 4000 + 1)) + 4000;
-    showOffer(offer);
+    showOfferModal(offer);
   }
 };
 
@@ -105,16 +93,16 @@ function excellentCondition(carYear) {
   console.log("this"+carYear)
   if (carYear > 1999 && carYear < 2004) {
     offer = Math.floor(Math.random() * (4600 - 4400 + 1)) + 4400;
-    showOffer(offer);
+    showOfferModal(offer);
   } else if (carYear > 2004 && carYear < 2009) {
     offer = Math.floor(Math.random() * (5000 - 4600 + 1)) + 4600;
-    showOffer(offer);
+    showOfferModal(offer);
   } else if (carYear > 2009 && carYear < 2015) {
     offer = Math.floor(Math.random() * (5400 - 5000 + 1)) + 5000;
-    showOffer(offer);
+    showOfferModal(offer);
   } else if (carYear >= 2015) {
     offer = Math.floor(Math.random() * (7000 - 5400 + 1)) + 5400;
-    showOffer(offer);
+    showOfferModal(offer);
   }
 };
 
@@ -140,6 +128,8 @@ function getOffer(event) {
   var condition = $condition.val();
   checkCondition(condition);
 };
+
+
 function acceptOffer(event){
   event.preventDefault();
   var cars = {
@@ -152,31 +142,8 @@ function acceptOffer(event){
   };
   console.log(offer);
   $.post("/api/cars", cars);
-  var closeDiv = $("<div>").attr("class", "close");
-  var congrats = $("<h1>").text("Congratulation this offer is valid for 15 days")
-  $(".buttons").hide();
-  var close = $("<button>").text("close").attr("class","btn btn-dark closeMessage")
-  closeDiv.append(congrats);
-  closeDiv.append(close);
-  $("#result").append(closeDiv);
-};
-
-function notAcceptOffer(event){
-  event.preventDefault();
-  var closeDiv = $("<div>").attr("class", "close");
-  var thanks = $("<h1>").text("Maybe Next Time! Thank you for your interest")
-  $(".buttons").hide();
-  var close = $("<button>").text("close").attr("class", "btn btn-dark closeMessage")
-  closeDiv.append(thanks);
-  closeDiv.append(close);
-  $("#result").append(closeDiv);
-};
-
-function clearOffer(event){
-  event.preventDefault();
-  $("#result").empty();
-  $("#accept").empty();
-  $("#notaccept").empty();
+  $("#offer").text("Congratulation this offer is valid for 15 days")
+  $(".accept").hide();
 };
 
 function buyCar(event) {
@@ -188,6 +155,9 @@ function buyCar(event) {
     method: "DELETE",
     url: "/api/cars/" + id
   }).then(getCars);
+  $('#confirm').modal({
+    show: true,
+  });
 }
 
 
