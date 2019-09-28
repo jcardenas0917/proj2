@@ -5,24 +5,20 @@ var $miles = $("#miles");
 var $condition = $("#condition");
 var offer = 0;
 
-$(document).on("submit", "#sellForm", sellCar);
+$(document).on("submit", "#sellForm", getOffer);
+$(document).on("click", "button.accept", acceptOffer);
+$(document).on("click", "button.notAccept", notAcceptOffer);
 $(document).on("submit", "#buyCar", getCars);
 $(document).on("click", "button.buy", buyCar);
+$(document).on("click", "button.closeMessage", clearOffer);
 
 
 function showResults(carsResult) {
-  $("#result").empty();
+  $("#inventory").empty();
   carsResult.forEach(function (car,index) {
     var value = parseInt(carsResult[index].offer);
-    console.log(value);
     var profit = (value * .35);
     var sellPrice = Math.round(value + profit);
-    console.log(carsResult[index].make);
-    console.log(carsResult[index].model);
-    console.log(carsResult[index].year);
-    console.log(carsResult[index].miles);
-    console.log(carsResult[index].condition);
-    console.log(sellPrice);
     var displayDiv = $("<div>").attr("class", "display");
     var make = $("<p>").text("Make: " + carsResult[index].make);
     var model = $("<p>").text("Model: " + carsResult[index].model);
@@ -40,9 +36,9 @@ function showResults(carsResult) {
     displayDiv.append(price);
     displayDiv.append(button);
     displayDiv.append(divider);
-    $("#result").append(displayDiv);
+    $("#inventory").append(displayDiv);
   });
-}
+};
 
 // This function grabs cars from the database and updates the view
 
@@ -51,28 +47,24 @@ function getCars() {
     var cars = data;
     showResults(cars);
   });
-}
-
-// This function updates a todo in our database
-// function updateCar(todo) {
-//   $.ajax({
-//     method: "PUT",
-//     url: "/api/cars",
-//     data: cars
-//   }).then(getCars);
-// }
-
+};
 function showOffer(acceptOffer){
-
-  var displayDiv = $("<div>").attr("class", "display");
-  var message = $("<h1>").text("Our offer is $" + acceptOffer+ " for your vehicle");
+  $("#result").empty();
+  $("#result").empty();
+  $("#accept").empty();
+  $("#notaccept").empty();
+  
+  var displayDiv = $("<div>").attr("class", "offerDiv");
+  var acceptDiv = $("<div>").attr("class", "buttons");
+  var notacceptDiv = $("<div>").attr("class", "buttons");
+  var message = $("<h1>").attr("class", ".offerMessage").text("Our offer for your vehicle is $" + acceptOffer);
   displayDiv.append(message);
-  displayDiv.append( $("<button>").text("accept").attr("class", "btn btn-dark accept"));
-  displayDiv.append($("<div>").attr("class", "col-2"));
-  displayDiv.append( $("<button>").text("do no accept").attr("class", "btn btn-dark notAccept"));
+  acceptDiv.append( $("<button>").text("accept").attr("class", "btn btn-dark accept"));
+  notacceptDiv.append( $("<button>").text("do no accept").attr("class", "btn btn-dark notAccept"));
   $("#result").append(displayDiv);
-  // $(document).on("click", "#sellForm", postCar);
-}
+  $("#accept").append(acceptDiv);
+  $("#notaccept").append(notacceptDiv);
+};
 function fairCondition(carYear) {
   if (carYear > 1999 && carYear < 2004) {
     offer = Math.floor(Math.random() * (1500 - 900 + 1)) + 900;
@@ -91,7 +83,7 @@ function fairCondition(carYear) {
     showOffer(offer);
     console.log(offer);
   }
-}
+};
 
 function goodCondition(carYear) {
   if (carYear > 19999 && carYear < 2004) {
@@ -107,7 +99,7 @@ function goodCondition(carYear) {
     offer = Math.floor(Math.random() * (4400 - 4000 + 1)) + 4000;
     showOffer(offer);
   }
-}
+};
 
 function excellentCondition(carYear) {
   console.log("this"+carYear)
@@ -124,7 +116,7 @@ function excellentCondition(carYear) {
     offer = Math.floor(Math.random() * (7000 - 5400 + 1)) + 5400;
     showOffer(offer);
   }
-}
+};
 
 function checkCondition(condition) {
   var year = $year.val();
@@ -142,11 +134,14 @@ function checkCondition(condition) {
       excellentCondition(year);
       return;
   }
-}
-function sellCar(event) {
+};
+function getOffer(event) {
   event.preventDefault();
   var condition = $condition.val();
   checkCondition(condition);
+};
+function acceptOffer(event){
+  event.preventDefault();
   var cars = {
     make: $make.val(),
     model: $model.val(),
@@ -155,11 +150,34 @@ function sellCar(event) {
     condition: $condition.val(),
     offer: offer
   };
-
   console.log(offer);
   $.post("/api/cars", cars);
-  // location.reload();
-}
+  var closeDiv = $("<div>").attr("class", "close");
+  var congrats = $("<h1>").text("Congratulation this offer is valid for 15 days")
+  $(".buttons").hide();
+  var close = $("<button>").text("close").attr("class","btn btn-dark closeMessage")
+  closeDiv.append(congrats);
+  closeDiv.append(close);
+  $("#result").append(closeDiv);
+};
+
+function notAcceptOffer(event){
+  event.preventDefault();
+  var closeDiv = $("<div>").attr("class", "close");
+  var thanks = $("<h1>").text("Maybe Next Time! Thank you for your interest")
+  $(".buttons").hide();
+  var close = $("<button>").text("close").attr("class", "btn btn-dark closeMessage")
+  closeDiv.append(thanks);
+  closeDiv.append(close);
+  $("#result").append(closeDiv);
+};
+
+function clearOffer(event){
+  event.preventDefault();
+  $("#result").empty();
+  $("#accept").empty();
+  $("#notaccept").empty();
+};
 
 function buyCar(event) {
   event.stopPropagation();

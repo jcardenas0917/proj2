@@ -1,7 +1,7 @@
 module.exports = function (sequelize, DataTypes) {
     var Emails = sequelize.define("Emails", {
         emails: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 isEmail: true
