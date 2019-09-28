@@ -9,11 +9,11 @@ $(document).on("submit", "#sellForm", getOffer);
 $(document).on("click", "button.accept", acceptOffer);
 $(document).on("submit", "#buyCar", getCars);
 $(document).on("click", "button.buy", buyCar);
-$(document).on("click", "#clear", clearBuy);
+$(document).on("click", ".clear", clear);
 
 
-function clearBuy(){
-  $("#inventory").empty();
+function clear(){
+  location.reload();
 }
 function showOfferModal(){
   $('#showOffer').modal({
