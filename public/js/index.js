@@ -5,13 +5,28 @@ var $miles = $("#miles");
 var $condition = $("#condition");
 var offer = 0;
 
-$(document).on("submit", "#sellForm", getOffer);
+$(document).on("submit", "#sellForm", validateForm);
 $(document).on("click", "button.accept", acceptOffer);
 $(document).on("submit", "#buyCar", getCars);
 $(document).on("click", "button.buy", buyCar);
 $(document).on("click", ".clear", clear);
 
-
+function validateForm(event) {
+  event.preventDefault();
+  if($make.val() === "") {
+    alert("Please choose make");
+  } else if ($model.val() === "") {
+    alert("Please choose model");
+  } else if ($year.val() === "") {
+    alert("Please choose year");
+  } else if ($miles.val() === "") {
+    alert("Please choose miles");
+  } else if ($condition.val() === "") {
+    alert("Please choose condition");
+  }else{
+    getOffer();
+  }
+ }
 function clear(){
   location.reload();
 }
@@ -130,6 +145,7 @@ function checkCondition(condition) {
 };
 function getOffer(event) {
   event.preventDefault();
+  validateForm();
   var condition = $condition.val();
   checkCondition(condition);
 };
