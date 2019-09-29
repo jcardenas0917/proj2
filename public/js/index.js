@@ -46,7 +46,7 @@ function showResults(carsResult) {
     displayDiv.append(divider);
     $("#inventory").append(displayDiv);
   });
-};
+}
 
 // This function grabs cars from the database and updates the view
 
@@ -56,7 +56,7 @@ function getCars() {
     var cars = data;
     showResults(cars);
   });
-};
+}
 
 function fairCondition(carYear) {
   if (carYear > 1999 && carYear < 2004) {
@@ -76,7 +76,7 @@ function fairCondition(carYear) {
     showOfferModal(offer);
     console.log(offer);
   }
-};
+}
 
 function goodCondition(carYear) {
   if (carYear > 19999 && carYear < 2004) {
@@ -92,7 +92,7 @@ function goodCondition(carYear) {
     offer = Math.floor(Math.random() * (4400 - 4000 + 1)) + 4000;
     showOfferModal(offer);
   }
-};
+}
 
 function excellentCondition(carYear) {
   console.log("this"+carYear)
@@ -109,7 +109,7 @@ function excellentCondition(carYear) {
     offer = Math.floor(Math.random() * (7000 - 5400 + 1)) + 5400;
     showOfferModal(offer);
   }
-};
+}
 
 function checkCondition(condition) {
   var year = $year.val();
@@ -127,11 +127,11 @@ function checkCondition(condition) {
       excellentCondition(year);
       return;
   }
-};
+}
 function getOffer() {
   var condition = $condition.val();
   checkCondition(condition);
-};
+}
 
 
 function acceptOffer(event){
@@ -148,7 +148,7 @@ function acceptOffer(event){
   $.post("/api/cars", cars);
   $("#offer").text("Congratulation this offer is valid for 15 days")
   $(".accept").hide();
-};
+}
 
 function buyCar(event) {
   event.stopPropagation();
@@ -162,7 +162,7 @@ function buyCar(event) {
       method: "DELETE",
       url: "/api/cars/" + id
     }).then(getCars);
-};
+}
 
 function validateSellForm(event) {
   event.preventDefault();
