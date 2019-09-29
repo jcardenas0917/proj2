@@ -4,7 +4,7 @@ $(document).on("submit", "#subscribe", subscribe);
 function subscribe(event) {
     event.preventDefault();
     if ($email.val() === "") {
-        alert("Please enter a valid E-mail")
+        alert('Please enter a valid E-mail')
     } else {
         var emails = {
             email: $email.val(),
