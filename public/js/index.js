@@ -52,12 +52,49 @@ function showResults(carsResult) {
     $("#inventory").append(displayDiv);
   });
 }
+// This function updates the image logo based on the car choosen.
+function getImage(make){
+$("#image").empty();
+    switch (make) {
+      case "Ford":
+        $("#image").html("<img src='../assets/images/fordEmblem.png'/>")
+        return;
+      case "Mitsubishi":
+        $("#image").html("<img src='../assets/images/mitsubishiEmblem.png'/>")
+        return;
+      case "Nissan":
+        $("#image").html("<img src='../assets/images/nissanEmblem.png'/>")
+        return;
+      case "Toyota":
+        $("#image").html("<img src='../assets/images/toyotaEmblem.png'/>")
+        return;
+      case "Honda":
+        $("#image").html("<img src='../assets/images/hondaEmblem.png'/>")
+        return;
+      case "Chevrolet":
+        $("#image").html("<img src='../assets/images/chevroletEmblem.png'/>")
+        return;
+      case "Dodge":
+        $("#image").html("<img src='../assets/images/dodgeEmblem.png'/>")
+        return;
+      case "Kia":
+        $("#image").html("<img src='../assets/images/kiaEmblem.png'/>")
+        return;
+      case "Volkswagen":
+        $("#image").html("<img src='../assets/images/volkswagenEmblem.png'/>")
+        return;
+      case "Hyundai":
+        $("#image").html("<img src='../assets/images/hyundaiEmblem.png'/>")
+        return;
+    }
+}
 // This function grabs cars from the database and updates the view
 function getCars() {
   $("#inventory").empty();
   $.get("/api/cars/" + $make.val() + "/" + $condition.val(), function (data) {
     var cars = data;
     showResults(cars);
+    getImage($make.val());
   });
 }
 //Makes offer based on fair condition
