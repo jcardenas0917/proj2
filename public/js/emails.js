@@ -1,18 +1,26 @@
 var $email = $("#email");
 $(document).on("submit", "#subscribe", subscribe);
+$(document).on("click", "#clear", clear);
 
 function subscribe(event) {
     event.preventDefault();
     if ($email.val() === "") {
-        alert('Please enter a valid E-mail')
+        $('#errorModal').modal({
+            show: true,
+        });
+        $('#error').text("Please Enter An E-mail 😐");
     } else {
         var emails = {
             email: $email.val(),
         };
-        console.log(emails.email);
-
         $.post("/api/emails", emails);
-        alert("Thank You For Subscribing")
-        location.reload();
-    }
+        $('#errorModal').modal({
+            show: true,
+        });
+        $('#error').text("Thank you for subscribing! 👍");
+    }   
+}
+
+function clear(){
+    location.reload();
 }
