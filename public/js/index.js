@@ -5,28 +5,13 @@ var $miles = $("#miles");
 var $condition = $("#condition");
 var offer = 0;
 
-$(document).on("submit", "#sellForm", validateForm);
+$(document).on("submit", "#sellForm", validateSellForm);
 $(document).on("click", "button.accept", acceptOffer);
-$(document).on("submit", "#buyCar", getCars);
+$(document).on("submit", "#buyCar", validateBuyForm);
 $(document).on("click", "button.buy", buyCar);
 $(document).on("click", ".clear", clear);
 
-function validateForm(event) {
-  event.preventDefault();
-  if($make.val() === "") {
-    alert("Please choose make");
-  } else if ($model.val() === "") {
-    alert("Please choose model");
-  } else if ($year.val() === "") {
-    alert("Please choose year");
-  } else if ($miles.val() === "") {
-    alert("Please choose miles");
-  } else if ($condition.val() === "") {
-    alert("Please choose condition");
-  }else{
-    getOffer();
-  }
- }
+
 function clear(){
   location.reload();
 }
@@ -143,9 +128,7 @@ function checkCondition(condition) {
       return;
   }
 };
-function getOffer(event) {
-  event.preventDefault();
-  validateForm();
+function getOffer() {
   var condition = $condition.val();
   checkCondition(condition);
 };
@@ -171,14 +154,44 @@ function buyCar(event) {
   event.stopPropagation();
   console.log("👍👍👍")
   var id = $(this).data("id");
-  console.log(id)
-  $.ajax({
-    method: "DELETE",
-    url: "/api/cars/" + id
-  }).then(getCars);
   $('#confirm').modal({
     show: true,
   });
+    console.log(id)
+    $.ajax({
+      method: "DELETE",
+      url: "/api/cars/" + id
+    }).then(getCars);
+};
+
+function validateSellForm(event) {
+  event.preventDefault();
+  $("#error").text("");
+  if ($make.val() === "select make") {
+    $("#error").text("Please choose make");
+  } else if ($model.val() === "") {
+    $("#error").text("Please enter model");
+  } else if ($year.val() === "select year") {
+    $("#error").text("Please choose year");
+  } else if ($miles.val() === "") {
+    $("#error").text("Please enter miles");
+  } else if ($condition.val() === "select condition") {
+    $("#error").text("Please choose condition");
+  } else {
+    getOffer();
+  }
+}
+
+function validateBuyForm(event) {
+  event.preventDefault();
+  $("#error").text("");
+  if ($make.val() === "select make") {
+    $("#error").text("Please choose make");
+  } else if ($condition.val() === "select condition") {
+    $("#error").text("Please choose condition");
+  } else {
+    getCars();
+  }
 }
 
 

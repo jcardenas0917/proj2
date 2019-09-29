@@ -54,7 +54,7 @@
                 <div class="form-group col">
                     <label for="theMake">Make:</label>
                     <select class="form-control" id="make">
-                        <option selected disabled>select make</option>
+                        <option>select make</option>
                         <option>Ford</option>
                         <option>Mitsubishi</option>
                         <option>Nissan</option>
@@ -74,7 +74,7 @@
                 <div class="form-group col-2">
                     <label for="theYear">Year:</label>
                     <select class="form-control" id="year">
-                        <option selected disabled>select year</option>
+                        <option>select year</option>
                         <option>2000</option>
                         <option>2001</option>
                         <option>2002</option>
@@ -105,7 +105,7 @@
                 <div class="form-group col">
                     <label for="theCondition">Condition:</label>
                     <select class="form-control" id="condition">
-                        <option selected disabled>select condition</option>
+                        <option>select condition</option>
                         <option>Excellent</option>
                         <option>Good</option>
                         <option>Fair</option>
@@ -118,6 +118,16 @@
                     <button type="submit" class="btn btn-dark">Get Offer</button>
                 </div>
         </form>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+    
+            </div>
+            <div class="col-6" id="errorDiv">
+                <strong><h1 id="error"></h1></strong>
+            </div>
+        </div>
     </div>
     <!-- Modal -->
     <div class="modal fade" id="showOffer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
