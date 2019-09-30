@@ -19,7 +19,7 @@ function clear(){
 }
 
 //Shows offer after costumer enters all the information
-function showOfferModal(){
+function showOfferModal(offer){
   $('#showOffer').modal({
     show: true,
 });
